@@ -1,0 +1,20 @@
+
+# Archivos de configuración y credenciales
+.env
+.env.*
+!.env.example
+Config/conexion.php
+
+/vendor/
+
+
+*.log
+*.tmp
+
+
+.vscode/
+.idea/
+
+
+.DS_Store
+Thumbs.db
