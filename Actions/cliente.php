@@ -1,13 +1,10 @@
 <?php
 
-require_once "../config/conexion.php";
+require_once "../Config/conexion.php";
 
 try {
-
-
-    $accion = $_POST['accion'];
-    $id = $_POST['customerid'];
-
+    $accion = $_POST['accion'] ?? null;
+    $id = $_POST['customerid'] ?? null;
     $nombre = $_POST['companyname'] ?? null;
     $contacto = $_POST['contactname'] ?? null;
     $ciudad = $_POST['city'] ?? null;
@@ -35,12 +32,15 @@ try {
 
     $mensaje = $stmt->fetchColumn();
 
-    header("Location: ../index.php?mensaje=" . urlencode($mensaje));
+    header("Location: ../index.php?mensaje=" . urlencode($mensaje) . "#abm-clientes");
     exit;
 } catch (PDOException $e) {
+    $errorSql = $e->getMessage();
 
-    $mensaje = $e->getMessage();
+    if (preg_match('/ERROR:\s*(.+?)(?:\r?\n|$)/', $errorSql, $matches)) {
+        $errorSql = trim($matches[1]);
+    }
 
-    header("Location: ../index.php?error=" . urlencode($mensaje));
+    header("Location: ../index.php?error=" . urlencode($errorSql) . "#abm-clientes");
     exit;
 }
